@@ -1,0 +1,116 @@
+name: Cypress Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chrome, firefox]
+        containers: [1, 2]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Cache Cypress binary
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v6
+        with:
+          browser: ${{ matrix.browser }}
+          record: false
+          parallel: true
+          group: 'Tests - ${{ matrix.browser }}'
+          ci-build-id: '${{ github.sha }}-${{ github.run_number }}'
+          install: false
+        env:
+          CYPRESS_ENVIRONMENT: dev
+
+      - name: Upload screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots-${{ matrix.browser }}-${{ matrix.containers }}
+          path: cypress/screenshots
+          if-no-files-found: ignore
+
+      - name: Upload videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos-${{ matrix.browser }}-${{ matrix.containers }}
+          path: cypress/videos
+          if-no-files-found: ignore
+
+      - name: Upload cucumber JSON reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-json-${{ matrix.browser }}-${{ matrix.containers }}
+          path: cypress/reports/cucumber-json
+          if-no-files-found: ignore
+
+  report:
+    needs: test
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download all cucumber JSON reports
+        uses: actions/download-artifact@v4
+        with:
+          pattern: cucumber-json-*
+          path: cypress/reports/cucumber-json
+          merge-multiple: true
+
+      - name: Generate HTML report
+        run: npm run report:generate
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-html-report
+          path: cypress/reports/html
+          retention-days: 30
+
+      - name: Publish test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            cypress/reports/html
+            cypress/screenshots
+            cypress/videos
+          retention-days: 30
