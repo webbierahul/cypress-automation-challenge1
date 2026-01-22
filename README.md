@@ -1,0 +1,2 @@
+# cypress-automation-challenge1
+Cypress project to be used for the automation QA technical challenge
