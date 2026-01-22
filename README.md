@@ -181,6 +181,8 @@ Configure different environments in `config/environments.js`:
 }
 ```
 
+> **Note**: To pass your own environment variables, add them in `cypress.env.json`. These variables will be available via `Cypress.env('variableName')`.
+
 ## 📝 Code Review Findings
 
 
