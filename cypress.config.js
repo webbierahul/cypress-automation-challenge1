@@ -34,7 +34,7 @@ module.exports = defineConfig({
     baseUrl: 'https://demoqa.com',
     viewportWidth: 1280,
     viewportHeight: 720,
-    video: true,
+    video: !process.env.CI,
     screenshotOnRunFailure: true,
     videosFolder: 'cypress/videos',
     screenshotsFolder: 'cypress/screenshots',
@@ -43,7 +43,7 @@ module.exports = defineConfig({
     requestTimeout: 10000,
     responseTimeout: 10000,
     retries: {
-      runMode: 2,
+      runMode: 1,
       openMode: 0,
     },
     env: {

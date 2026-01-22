@@ -14,7 +14,6 @@ jobs:
       fail-fast: false
       matrix:
         browser: [chrome, firefox]
-        containers: [1, 2]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -46,23 +45,15 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-screenshots-${{ matrix.browser }}-${{ matrix.containers }}
+          name: cypress-screenshots-${{ matrix.browser }}
           path: cypress/screenshots
-          if-no-files-found: ignore
-
-      - name: Upload videos
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-videos-${{ matrix.browser }}-${{ matrix.containers }}
-          path: cypress/videos
           if-no-files-found: ignore
 
       - name: Upload cucumber JSON reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cucumber-json-${{ matrix.browser }}-${{ matrix.containers }}
+          name: cucumber-json-${{ matrix.browser }}
           path: cypress/reports/cucumber-json
           if-no-files-found: ignore
 
@@ -98,7 +89,7 @@ jobs:
         with:
           name: cucumber-html-report
           path: cypress/reports/html
-          retention-days: 30
+          retention-days: 7
 
       - name: Publish test results
         if: always()
@@ -108,5 +99,4 @@ jobs:
           path: |
             cypress/reports/html
             cypress/screenshots
-            cypress/videos
-          retention-days: 30
+          retention-days: 7
