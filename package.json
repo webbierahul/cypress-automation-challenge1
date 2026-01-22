@@ -1,0 +1,63 @@
+{
+  "name": "cypress-automation-challenge",
+  "version": "1.0.0",
+  "description": "Cypress project for automation QA technical challenge with BDD, reporting, and CI/CD",
+  "main": "index.js",
+  "scripts": {
+    "cy:run": "cypress run --browser chrome",
+    "cy:run:headed": "cypress run --browser chrome --headed",
+    "cy:open": "cypress open",
+    "cy:run:dev": "cypress run --browser chrome --env environment=dev",
+    "cy:run:staging": "cypress run --browser chrome --env environment=staging",
+    "cy:run:prod": "cypress run --browser chrome --env environment=prod",
+    "test": "npm run cy:run",
+    "report:generate": "node cucumber-html-reporter.js",
+    "test:report": "npm run cy:run && npm run report:generate",
+    "lint": "eslint cypress/**/*.js",
+    "lint:fix": "eslint cypress/**/*.js --fix",
+    "format": "prettier --write \"**/*.{js,json,md,feature}\"",
+    "format:check": "prettier --check \"**/*.{js,json,md,feature}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webbierahul/cypress-automation-challenge.git"
+  },
+  "keywords": [
+    "cypress",
+    "automation",
+    "testing",
+    "bdd",
+    "cucumber",
+    "qa"
+  ],
+  "author": "Rahul Hovale",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/webbierahul/cypress-automation-challenge/issues"
+  },
+  "homepage": "https://github.com/webbierahul/cypress-automation-challenge#readme",
+  "devDependencies": {
+    "cypress": "^15.9.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-cypress": "^2.15.1",
+    "prettier": "^3.2.5"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "dependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^24.0.0",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.8",
+    "multiple-cucumber-html-reporter": "^3.7.0"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true,
+    "stepDefinitions": [
+      "cypress/e2e/**/*.{js,ts}"
+    ],
+    "json": {
+      "enabled": true,
+      "output": "cypress/reports/cucumber-json/cucumber-report.json"
+    }
+  }
+}
