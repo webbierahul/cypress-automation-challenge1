@@ -23,8 +23,8 @@ A comprehensive Cypress automation framework using BDD (Cucumber), featuring aut
 
 ```bash
 # Clone the repository
-git clone https://github.com/webbierahul/cypress-automation-challenge.git
-cd cypress-automation-challenge
+git clone https://github.com/webbierahul/cypress-automation-challenge1.git
+cd cypress-automation-challenge1
 
 # Install dependencies
 npm install
@@ -156,17 +156,17 @@ The report will be available at: `cypress/reports/html/index.html`
 The project includes a GitHub Actions workflow that:
 
 - Runs on push/PR to main and develop branches
-- Executes linting and formatting checks
-- Runs tests in parallel across 3 containers
-- Supports multiple browsers (Chrome, Firefox, Edge)
+
+- Runs tests in parallel across 2 runners
+- Supports multiple browsers (Chrome, Firefox)
 - Generates and uploads test reports
-- Uploads screenshots and videos on failure
+- Uploads screenshots on failure
 
 ### Parallel Execution
 
 The workflow uses a matrix strategy to run tests in parallel:
 
-- 3 browsers × 3 containers = 9 parallel jobs
+- 2 browsers = 2 parallel jobs
 - Significantly reduces total execution time
 
 ## 🌍 Environment Configuration
@@ -183,7 +183,6 @@ Configure different environments in `config/environments.js`:
 
 ## 📝 Code Review Findings
 
-See [docs/CODE_REVIEW.md](docs/CODE_REVIEW.md) for detailed analysis of:
 
 - ✅ Good practices identified
 - ❌ Issues found and fixed
@@ -200,37 +199,23 @@ See [docs/CODE_REVIEW.md](docs/CODE_REVIEW.md) for detailed analysis of:
 7. **Comprehensive Reporting** - Multiple Cucumber HTML reports
 8. **CI/CD Pipeline** - GitHub Actions with parallel execution
 9. **Book Store Automation** - Complete test suite for book store app
-10. **Better Assertions** - Comprehensive validation methods
+
 
 ## 🔮 Future Enhancements
 
 - [ ] Add API testing for book store endpoints
 - [ ] Implement visual regression testing
 - [ ] Add performance testing with Lighthouse
-- [ ] Integrate with test management tools (TestRail, Xray)
+- [ ] Integrate with test management tools (TestRail, Xray, AIO)
 - [ ] Add accessibility testing (axe-core)
 - [ ] Implement custom Cypress commands
-- [ ] Add database validation
 - [ ] Create reusable test utilities library
-- [ ] Add cross-browser visual testing
 - [ ] Implement test data management strategy
 
 ## 📄 License
 
-ISC
+MIT License
 
 ## 👤 Author
 
 Rahul Hovale
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run linting and tests
-5. Submit a pull request
-
----
-
-**Note**: This project was created as part of a QA Automation Engineer technical challenge to demonstrate proficiency in Cypress, BDD, test automation best practices, and CI/CD integration.
